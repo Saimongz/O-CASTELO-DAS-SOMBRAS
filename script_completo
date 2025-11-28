@@ -1,0 +1,246 @@
+import java.util.*;
+
+public class Main {
+    static Scanner sc = new Scanner(System.in);
+    static Random rand = new Random();
+    static int vida = 100;
+
+    public static void main(String[] args) {
+
+        while (true) {
+            vida = 100;
+            introducaoHistoria();
+            entrarNoCastelo();
+            gargulaIntroducao();
+
+            jogarSalas(7);
+
+            boolean venceu = enfrentarMago();
+
+            if (venceu) {
+                System.out.println("\n✨ O mago ergue a mão…");
+                System.out.println("\"Incrível… ninguém jamais havia vencido minhas charadas.\"");
+                System.out.println("\"Como prometido… aqui está a outra metade do amuleto.\"\"");
+                System.out.println("\n💎 As duas partes se unem e brilham intensamente!");
+                System.out.println("A maldição se desfaz… o castelo desmorona atrás de você…");
+                System.out.println("\n🏆 VOCÊ COMPLETOU O AMULETO E ESCAPOU — FIM DO JOGO 🏆");
+                break;
+            } else {
+                System.out.println("\n💀 Você falhou na charada e o castelo te consome…");
+                System.out.println("💀 Sua consciência apaga… e você desperta novamente na floresta.");
+                System.out.println("\n🔄 O ciclo recomeça…");
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // INTRODUÇÃO
+    // ----------------------------------------------------------------------
+
+    static void introducaoHistoria() {
+        System.out.println("\n🌲 Você desperta no meio de uma floresta sombria…");
+        System.out.println("Sua cabeça dói, sua visão está turva… e você não lembra de nada.");
+        esperar();
+
+        System.out.println("\nAo olhar ao redor, você vê um brilho estranho vindo de uma pedra no chão…");
+        esperar();
+
+        System.out.println("\nAo se aproximar, percebe que não é uma pedra… mas sim um AMULETO partido ao meio.");
+        System.out.println("No instante em que toca nele…");
+        esperar();
+
+        System.out.println("\n💥 UM CLARÃO EXPLODE!");
+        System.out.println("Uma criatura surge das sombras, com olhos flamejantes…");
+        esperar();
+
+        System.out.println("\n👹 \"Você foi amaldiçoado, viajante…\"");
+        System.out.println("\"A única forma de sobreviver é COMPLETAR esse amuleto.\"");
+        esperar();
+
+        System.out.println("\n\"A outra parte está dentro do CASTELO SOMBRIO…\"");
+        System.out.println("\"Passe pelas salas… sobreviva… e enfrente o MAGO DAS CHARADAS.\"");
+        esperar();
+    }
+
+    static void entrarNoCastelo() {
+        System.out.println("\n🕯️ Você segue pela floresta até o castelo mencionado…");
+        esperar();
+        System.out.println("Assim que entra… BOOOOM! As portas se fecham atrás de você.");
+        esperar();
+    }
+
+    static void gargulaIntroducao() {
+        System.out.println("\n💀 Uma gárgula ganha vida acima da porta…");
+        System.out.println("\"Hahahaha… você realmente entrou, humano tolo…\"");
+        esperar();
+
+        System.out.println("\n\"Se deseja completar o amuleto, terá que sobreviver às 7 salas amaldiçoadas.\"");
+        esperar();
+
+        System.out.println("\n\"E mesmo se sobreviver… ainda terá que enfrentar o MAGO DAS CHARADAS!\"");
+        esperar();
+
+        System.out.println("\n\"Apenas assim poderá juntar todas as partes do amuleto… e escapar vivo.\"");
+        esperar();
+    }
+
+    // ----------------------------------------------------------------------
+    // SALAS DO CASTELO
+    // ----------------------------------------------------------------------
+
+    static void jogarSalas(int totalSalas) {
+        for (int i = 1; i <= totalSalas; i++) {
+
+            if (vida <= 0) {
+                System.out.println("\n💀 Você morreu antes de chegar ao mago…");
+                return;
+            }
+
+            System.out.println("\n─────────────────────────────────────");
+            System.out.println("🏰 SALA " + i + " — Escolha seu caminho");
+            System.out.println("Vida atual: " + vida);
+            System.out.println("1 — Porta da Esquerda");
+            System.out.println("2 — Porta da Direita");
+            System.out.println("3 — Subir as Escadas");
+            System.out.print("Escolha: ");
+            sc.nextInt();
+            sc.nextLine();
+
+            eventoAleatorioSala();
+            esperar();
+        }
+    }
+
+    static void eventoAleatorioSala() {
+        int evento = rand.nextInt(4);
+
+        switch (evento) {
+            case 0:
+                System.out.println("\n👹 Um MONSTRO aparece!");
+                System.out.println("-20 HP");
+                vida -= 20;
+                break;
+
+            case 1:
+                System.out.println("\n🕳️ Uma ARMADILHA explode!");
+                System.out.println("-10 HP");
+                vida -= 10;
+                break;
+
+            case 2:
+                System.out.println("\n💎 Você encontrou um TESOURO!");
+                System.out.println("+15 HP");
+                vida += 15;
+                if (vida > 100) vida = 100;
+                break;
+
+            case 3:
+                System.out.println("\n🌫️ Nada acontece…");
+                break;
+        }
+
+        if (vida < 0) vida = 0;
+
+        System.out.println("Vida atual: " + vida);
+    }
+
+    // ----------------------------------------------------------------------
+    // MAGO DAS CHARADAS
+    // ----------------------------------------------------------------------
+
+    static boolean enfrentarMago() {
+        System.out.println("\n🔥 O MAGO DAS CHARADAS surge entre chamas douradas…");
+        esperar();
+
+        System.out.println("\n\"Vejo que você sobreviveu… impressionante.\"");
+        System.out.println("\"Mas não fique confiante… ninguém jamais passou por mim.\"");
+        esperar();
+
+        String[] perguntas = {
+                "O que cai de pé e corre deitado?",   // CHUVA
+                "O que passa na frente do sol e não faz sombra?", // VENTO
+                "Mesmo parada, sempre avanço. O que sou?", // HORA
+                "Nasço grande e morro pequeno. O que sou?", // CHAMA
+                "Sigo você em todo lugar, mas desapareço no escuro. O que sou?" // SOMBRA
+        };
+
+        String[] respostas = {
+                "chuva", "vento", "hora", "chama", "sombra"
+        };
+
+        // Dicas novas — 3 diferentes para cada charada
+        String[][] dicas = {
+                {"Vem do céu", "Pode virar tempestade", "Molha tudo"},
+                {"É invisível", "Você sente mas não vê", "Está sempre se movendo"},
+                {"Você vê ela no relógio", "Ela não para", "Todos seguem ela"},
+                {"Está ligada ao calor", "Precisa de combustível", "Se apagar, desaparece de vez"},
+                {"É projetada pelo seu corpo", "Precisa de luz", "S some totalmente à noite"}
+        };
+
+        ArrayList<Integer> indices = new ArrayList<>();
+        while (indices.size() < 3) {
+            int r = rand.nextInt(5);
+            if (!indices.contains(r)) indices.add(r);
+        }
+
+        for (int indice : indices) {
+
+            System.out.println("\n🔥 CHARADA:");
+            System.out.println(perguntas[indice]);
+
+            int dicasUsadas = 0;
+
+            while (true) {
+                System.out.println("\n1 — Responder");
+                System.out.println("2 — Pedir dica (custa 2 HP)");
+                System.out.print("Escolha: ");
+                int escolha = sc.nextInt();
+                sc.nextLine();
+
+                if (escolha == 2) {
+
+                    if (dicasUsadas == 3) {
+                        System.out.println("\n❌ Você já usou as 3 dicas permitidas!");
+                        System.out.println("Responda agora!");
+                        continue;
+                    }
+
+                    if (vida < 2) {
+                        System.out.println("\n❌ Você não tem HP suficiente para pedir dica.");
+                        continue;
+                    }
+
+                    vida -= 2;
+
+                    System.out.println("Dica: " + dicas[indice][dicasUsadas]);
+                    dicasUsadas++;
+
+                    System.out.println("Dicas usadas: " + dicasUsadas + "/3");
+                    System.out.println("Vida atual: " + vida);
+                    continue;
+                }
+
+                System.out.print("Resposta: ");
+                String r = sc.nextLine().toLowerCase();
+
+                if (r.equals(respostas[indice])) {
+                    System.out.println("\n✨ \"Acertou… prossiga.\"");
+                    break;
+                } else {
+                    System.out.println("\n💀 \"ERROU! VOLTE AO INÍCIO!\"");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // ----------------------------------------------------------------------
+    // UTILITÁRIOS
+    // ----------------------------------------------------------------------
+
+    static void esperar() {
+        System.out.println("\n(Pressione ENTER para continuar…) ");
+        sc.nextLine();
+    }
+}
